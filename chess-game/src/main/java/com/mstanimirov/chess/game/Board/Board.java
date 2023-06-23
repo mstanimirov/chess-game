@@ -4,18 +4,29 @@
  */
 package com.mstanimirov.chess.game.Board;
 
+import com.mstanimirov.chess.game.Piece.Piece;
+
 /**
  *
  * @author mstanimirov
  */
 public class Board {
     
-    int width;
-    int height;
-    Tile[][] tiles;
+    private int width; // chessboard width
+    private int height; // chessboard height
+    private Piece[][] tiles; // 2d array to represent board tiles
         
     /**
      * Construct chessboard given width and height
+     * 
+     * Coordinate system
+     *      
+     * (1,1)------- +
+     *     |
+     *     |
+     *     |
+     *     +
+     * 
      * @param width set the width of the chessboard
      * @param height set the height of the chessboard
      */
@@ -25,64 +36,62 @@ public class Board {
         this.width = width;
         this.height = height;
         
-        //Initialize 2d array to store tiles
-        this.tiles = new Tile[height][];
+        //Initialize 2d array
+        this.tiles = new Piece[height][];
         for(int i = 0; i < height; i++){
-            this.tiles[i] = new Tile[width];
+            this.tiles[i] = new Piece[width];
         }
         
     }  
     
     /**
-     * Print the board
+     * Getter, get chessboard width
+     * @return width
      */
-    public void drawBoard(){
-        
-        //Draw top border
-        for(int i = 0; i < width; i++)
-            System.out.print(".---");
-        
-        System.out.print(".");
-        
-        for(int i = 0; i < width; i++){
-            
-            System.out.print("\n");
-            
-            //Draw boxes
-            for(int j = 0; j < height; j++){
-                
-                String p = tiles[i][j].hasPiece() ? tiles[i][j].getPiece().getName() : " ";
-                System.out.print("| " + p +" ");
-            
-            }                
-            
-            System.out.print("|\n");
-            
-            //Draw bottom border
-            for(int l = 0; l < width; l++)
-                System.out.print(".---");
-        
-            System.out.print(".");
-            
-        }      
-                
+    public int getWidth(){
+        return this.width;
     }
     
     /**
-     * 
-     * Return the tile at given coordinate
-     * if there is no tile at that coordinate, or that coordinate is invalid, return null
+     * Getter, get chessboard height
+     * @return height
+     */
+    public int getHeight(){
+        return this.height;
+    }
+    
+    /**
+     * Getter, get piece at given coordinate. 
+     * If there is no piece at that coordinate or coordinate is not valid return null.
+     * @param x the x coordinate 
+     * @param y the y coordinate
+     * @return return pice at (x, y) coordinate. If coordinate not valid return null
+     */
+    public Piece getPiece(int x, int y){
+        if(x >= this.width || x < 0 || y >= this.height || y < 0) // Index out of bound
+            return null;
+        return this.tiles[y][x];
+    }
+    
+    /**
+     * Setter, set piece at given (x, y) coordinate
+     * @param p the piece to set
      * @param x the x coordinate
      * @param y the y coordinate
-     * @return  the piece at (x, y) coordinate. If coordinate not valid, return null.
      */
-    public Tile getTile(int x, int y){
+    public void setPiece(Piece p, int x, int y){
+        this.tiles[x][y] = p;
+    }
+    
+    /**
+     * Remove piece from board
+     * @param p the piece to remove
+     */
+    public void removePiece(Piece p){
+        int x = p.getX_coordinate();
+        int y = p.getY_coordinate();
         
-        if(x >= this.width || x < 0 || y >= this.height || y < 0) //Index out of bound
-            return null;
-        
-        return tiles[x][y];
-        
+        this.tiles[x][y] = null;
     }
     
 }
