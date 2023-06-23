@@ -4,6 +4,8 @@
 
 package com.mstanimirov.chess.game;
 
+import com.mstanimirov.chess.game.Board.Board;
+
 /**
  *
  * @author mstanimirov
@@ -11,6 +13,9 @@ package com.mstanimirov.chess.game;
 public class ChessGame {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
+        Board board = new Board(3,3);        
+        board.drawBoard();
+        
     }
 }
