@@ -16,9 +16,13 @@ public class ChessGame {
     
     public static void main(String[] args) {
         
-        Board board = new Board(3,3);
+        Board board = new Board(3,3);        
+        Knight knight = new Knight(board);
         
-        board.setPiece(new Knight(), 0, 0);
+        knight.setCoordinate(0, 0);
+        drawBoard(board);
+        
+        knight.setCoordinate(2, 1);
         drawBoard(board);
         
     }

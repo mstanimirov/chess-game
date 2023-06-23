@@ -7,7 +7,8 @@ package com.mstanimirov.chess.game.Board;
 import com.mstanimirov.chess.game.Piece.Piece;
 
 /**
- *
+ * Chess board class
+ * 
  * @author mstanimirov
  */
 public class Board {
