@@ -4,6 +4,12 @@
  */
 package com.mstanimirov.chess.game.Piece;
 
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.Set;
+
 /**
  * Coordinate class
  * 
@@ -15,6 +21,9 @@ public class Coordinate {
     
     private int x;
     private int y;
+    
+    // Que used to store coordinates visited before reaching this coordinate
+    public Queue<Coordinate> visited = new ArrayDeque<>();
     
     /**
      * Set default coordinates to -1
@@ -66,6 +75,28 @@ public class Coordinate {
      */
     public void setY(int y){
         this.y = y;
+    }
+    
+    public String print(){
+        return "(" + x +", "+ y +")";
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) 
+            return true;
+        if (o == null || getClass() != o.getClass()) 
+            return false;
+	
+        Coordinate coord = (Coordinate) o;
+        return x == coord.x && y == coord.y;	
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(x, y);
+    
     }
     
 }

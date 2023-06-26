@@ -37,12 +37,30 @@ public class Knight extends Piece{
         
         ArrayList<Coordinate> coords = new ArrayList<>(); // Create return array list
         
-        int[] x = { 2, 2, 1,-1, -2, -2, -1, 1}; // Array with all possible x coordinates for this piece
-        int[] y = {-1, 1, 2, 2,  1, -1, -2,-2}; // Array with all possible y coordinates for this piece
+        int[] x_moves = { 2, 2, 1,-1, -2, -2, -1, 1}; // Array with all possible x coordinates for this piece
+        int[] y_moves = {-1, 1, 2, 2,  1, -1, -2,-2}; // Array with all possible y coordinates for this piece
         
-        for(int i = 0; i < x.length; i++){
+        for(int i = 0; i < x_moves.length; i++){
         
-            addMoveIfValid(coords, this.x_coordinate + x[i], this.y_coordinate + y[i]);
+            addMoveIfValid(coords, this.x_coordinate + x_moves[i], this.y_coordinate + y_moves[i]);
+        
+        }
+        
+        return coords;
+        
+    }
+    
+    @Override
+    public ArrayList<Coordinate> getPossibleMoves(int x, int y) {
+        
+        ArrayList<Coordinate> coords = new ArrayList<>(); // Create return array list
+        
+        int[] x_moves = { 2, 2, 1,-1, -2, -2, -1, 1}; // Array with all possible x coordinates for this piece
+        int[] y_moves = {-1, 1, 2, 2,  1, -1, -2,-2}; // Array with all possible y coordinates for this piece
+        
+        for(int i = 0; i < x_moves.length; i++){
+        
+            addMoveIfValid(coords, x + x_moves[i], y + y_moves[i]);
         
         }
         

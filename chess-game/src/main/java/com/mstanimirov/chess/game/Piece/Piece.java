@@ -85,7 +85,25 @@ public abstract class Piece {
         
         // Update board
         this.board.setPiece(this, x, y);
-        System.out.print("\n[X] "+ this.piece_name +" moves to (" + x +", " + y +")");
+        System.out.print("\n[o] "+ this.piece_name +" moves to (" + x +", " + y +")");
+        
+        return true;
+    }
+    
+    /**
+     * Check whether coordinate is valid for this piece
+     * 
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return true if coordinate is valid
+     */
+    public boolean isValidCoordinate(int x, int y){
+        
+        if(x >= this.board.getWidth() || x < 0 || y >= this.board.getHeight() || y < 0) // Index out of bound
+            return false;
+        
+        if(this.board.getPiece(x, y) != null) // Piece on that coordinate
+            return false;
         
         return true;
     }
@@ -122,10 +140,20 @@ public abstract class Piece {
     
     /**
      * 
-     * Get all possible moves 
+     * Get all possible moves from current coordinate
      * 
      * @return ArrayList<Coordinate> Object that contains all possible moves coordinates
      */
     public abstract ArrayList<Coordinate> getPossibleMoves();
+    
+    /**
+     * 
+     * Get all possible moves from coordinate
+     * 
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return ArrayList<Coordinate> Object that contains all possible moves coordinates
+     */
+    public abstract ArrayList<Coordinate> getPossibleMoves(int x, int y);
     
 }

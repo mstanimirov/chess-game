@@ -8,7 +8,13 @@ import com.mstanimirov.chess.game.Board.Board;
 import com.mstanimirov.chess.game.Piece.Coordinate;
 import com.mstanimirov.chess.game.Piece.Knight;
 import com.mstanimirov.chess.game.Piece.Piece;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Chess Game class
@@ -18,26 +24,38 @@ import java.util.ArrayList;
 public class ChessGame {
     
     private static Board board;
+    private static int boardWidth = 3;
+    private static int boardHeight = 3;
+    
     private static int[][] boardTiles; // 2d array to store visited tiles
     
     public static void main(String[] args) {
         
-        //Set the board
-        board = new Board(4,4);
+        // Set the board
+        board = new Board(boardWidth,boardHeight);
         
-        //Initialize 2d array to store visited tiles
+        // Initialize 2d array to store visited tiles
         boardTiles = new int[board.getWidth()][board.getHeight()];
         
-        //Put Knight on board
-        Knight knight = new Knight(board);        
-        knight.setCoordinate(0, 0);
+        // Knight start position input
+        Scanner in = new Scanner(System.in);
+        int x = in.nextInt();
+        int y = in.nextInt();
         
-        //Draw the board and move knight to target
-        if(moveToTarget(knight, new Coordinate(3, 3)))
+        // Put Knight on board
+        Knight knight = new Knight(board);        
+        knight.setCoordinate(x, y);
+        
+        // Set target to far right hand bottom corner.
+        Coordinate target = new Coordinate(boardWidth - 1, boardHeight - 1);
+        
+        // Move knight to target
+        drawBoard(board);
+        if(moveToTarget(knight, target))
             System.out.print("\n[X] Target Reached!");
         else
             System.out.print("\n[X] Target can't be reached with this setup!");
-        
+
     }
     
     /**
@@ -53,33 +71,83 @@ public class ChessGame {
      */
     public static boolean moveToTarget(Piece p, Coordinate target){
         
-        int x = p.getX_coordinate();
-        int y = p.getY_coordinate();
-        ArrayList<Coordinate> coords = p.getPossibleMoves();
+        int x = Math.abs(p.getX_coordinate() - target.getX());//p.getX_coordinate();
+        int y = Math.abs(p.getY_coordinate() - target.getY());//p.getY_coordinate();
         
-        if(x == target.getX() && y == target.getY()) // Target reached
+        if(x * y == 2){ // Can be solved in one move
+            
+            p.setCoordinate(target.getX(), target.getY());
+            drawBoard(board);
+
             return true;
+            
+        }
         
-        // Go through all possible move coordinates
-        for( Coordinate c : coords){
+        Queue<Coordinate> path = findShortestPath(p, target);        
+        if(path != null){
             
-            if(boardTiles[c.getX()][c.getY()] == 1) // Tile already visited
-                continue;
+            while(!path.isEmpty()){
+                
+                Coordinate coord = path.poll();
+                p.setCoordinate(coord.getX(), coord.getY());
+                drawBoard(board);
+                
+            }
             
-            if(p.setCoordinate(c.getX(), c.getY())){
-                
-                boardTiles[x][y] = 1; // Mark visited tile             
-                                
-                if(moveToTarget(p, target)) // Recursively call for the next move
-                    return true;
-                else
-                    p.setCoordinate(x, y); // Return tile to initial coordinates
-                
-            }                     
+            return true;
             
         }
         
         return false;
+        
+    }
+
+    public static Queue<Coordinate> findShortestPath(Piece p, Coordinate target){
+        
+        // Store visited coordinates
+        Set<Coordinate> visited = new HashSet<>();
+        
+        // Create queue and enqueue the first coordinate
+        Queue<Coordinate> q = new ArrayDeque<Coordinate>();
+        q.add(new Coordinate(p.getX_coordinate(), p.getY_coordinate()));
+        
+        // Loop till queue is empty
+        while(!q.isEmpty()){
+             
+            // Dequeue front coordinate and process it
+            Coordinate coord = q.poll();
+            
+            int x = coord.getX();
+            int y = coord.getY();
+            
+            // 
+            if(x == target.getX() && y == target.getY()){     
+                coord.visited.add(coord);
+                return coord.visited;
+            }
+            
+            if(!visited.contains(coord)){
+                
+                visited.add(coord);
+                coord.visited.add(coord);
+                
+                ArrayList<Coordinate> coords = p.getPossibleMoves(coord.getX(), coord.getY());
+                
+                // Go through all possible move coordinates
+                for( Coordinate c : coords){
+                                        
+                    if(p.isValidCoordinate(c.getX(), c.getY())){
+                        c.visited.addAll(coord.visited);
+                        q.add(c);
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+        return null;
         
     }
     

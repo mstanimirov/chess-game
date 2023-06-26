@@ -4,9 +4,7 @@
  */
 package com.mstanimirov.chess.game.Board;
 
-import com.mstanimirov.chess.game.Piece.Coordinate;
 import com.mstanimirov.chess.game.Piece.Piece;
-import java.util.ArrayList;
 
 /**
  * Board Class
