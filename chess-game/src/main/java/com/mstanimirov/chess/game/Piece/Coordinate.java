@@ -22,7 +22,7 @@ public class Coordinate {
     private int x;
     private int y;
     
-    // Que used to store coordinates visited before reaching this coordinate
+    // Queue store coordinates visited before reaching this coordinate
     public Queue<Coordinate> visited = new ArrayDeque<>();
     
     /**
@@ -77,10 +77,6 @@ public class Coordinate {
         this.y = y;
     }
     
-    public String print(){
-        return "(" + x +", "+ y +")";
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) 
@@ -89,13 +85,13 @@ public class Coordinate {
             return false;
 	
         Coordinate coord = (Coordinate) o;
-        return x == coord.x && y == coord.y;	
+        return x == coord.x && y == coord.y && visited == coord.visited;	
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(x, y);
+        return Objects.hash(x, y, visited);
     
     }
     

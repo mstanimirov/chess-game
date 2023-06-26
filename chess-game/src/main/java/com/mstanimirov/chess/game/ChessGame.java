@@ -24,8 +24,8 @@ import java.util.Set;
 public class ChessGame {
     
     private static Board board;
-    private static int boardWidth = 3;
-    private static int boardHeight = 3;
+    private static int boardWidth = 3; // board width
+    private static int boardHeight = 3; // board height
     
     private static int[][] boardTiles; // 2d array to store visited tiles
     
@@ -50,7 +50,6 @@ public class ChessGame {
         Coordinate target = new Coordinate(boardWidth - 1, boardHeight - 1);
         
         // Move knight to target
-        drawBoard(board);
         if(moveToTarget(knight, target))
             System.out.print("\n[X] Target Reached!");
         else
@@ -62,8 +61,8 @@ public class ChessGame {
      * 
      * Move piece to target coordinates
      * 
-     * Go through all possible moves until target is reached
-     * without visiting same coordinate twice (results infinite loop)
+     * If target is one move away make that move. Otherwise call findShortestPath()
+     * to get the shortest path to target and execute it.
      * 
      * @param p piece to move
      * @param target coordinates to move piece to
@@ -71,8 +70,8 @@ public class ChessGame {
      */
     public static boolean moveToTarget(Piece p, Coordinate target){
         
-        int x = Math.abs(p.getX_coordinate() - target.getX());//p.getX_coordinate();
-        int y = Math.abs(p.getY_coordinate() - target.getY());//p.getY_coordinate();
+        int x = Math.abs(p.getX_coordinate() - target.getX()); // distance to target on x axis;
+        int y = Math.abs(p.getY_coordinate() - target.getY()); // distance to target on y axis;
         
         if(x * y == 2){ // Can be solved in one move
             
@@ -83,6 +82,7 @@ public class ChessGame {
             
         }
         
+        // Get Queue<Coordinate> Object that contains all moves to target
         Queue<Coordinate> path = findShortestPath(p, target);        
         if(path != null){
             
@@ -120,14 +120,16 @@ public class ChessGame {
             int x = coord.getX();
             int y = coord.getY();
             
-            // 
+            // Target is reached
             if(x == target.getX() && y == target.getY()){     
                 coord.visited.add(coord);
                 return coord.visited;
             }
             
+            // Coordinate not visited
             if(!visited.contains(coord)){
                 
+                // Add coordinate to visited
                 visited.add(coord);
                 coord.visited.add(coord);
                 
@@ -137,7 +139,7 @@ public class ChessGame {
                 for( Coordinate c : coords){
                                         
                     if(p.isValidCoordinate(c.getX(), c.getY())){
-                        c.visited.addAll(coord.visited);
+                        c.visited.addAll(coord.visited); // Add coordinate to queue to backtrace later
                         q.add(c);
                     }
                     
