@@ -8,7 +8,8 @@ import com.mstanimirov.chess.game.Board.Board;
 import java.util.ArrayList;
 
 /**
- *
+ * Knight Class
+ * 
  * @author mstanimirov
  */
 public class Knight extends Piece{
@@ -20,18 +21,28 @@ public class Knight extends Piece{
         super("K", board);
     }
 
+    /**
+     * Get all possible move coordinates for this knight piece at current coordinate
+     *
+     *        @     @    
+     *     @           X    P: this piece 
+     *           P          X: start
+     *     @           @    @: possible move coordinate
+     *        @     @    
+     * 
+     * @return ArrayList<Coordinate> Object that contains all possible move coordinates
+     */
     @Override
     public ArrayList<Coordinate> getPossibleMoves() {
         
         ArrayList<Coordinate> coords = new ArrayList<>(); // Create return array list
         
-        int[] x = {2, 1, -1, -2, -2, -1, 1, 2}; // Array with all possible x coordinates for this piece
-        int[] y = {1, 2, 2, 1, -1, -2, -2, -1}; // Array with all possible y coordinates for this piece
+        int[] x = { 2, 2, 1,-1, -2, -2, -1, 1}; // Array with all possible x coordinates for this piece
+        int[] y = {-1, 1, 2, 2,  1, -1, -2,-2}; // Array with all possible y coordinates for this piece
         
         for(int i = 0; i < x.length; i++){
         
-            // Inesrt check here
-            coords.add(new Coordinate(x[i], y[i]));
+            addMoveIfValid(coords, this.x_coordinate + x[i], this.y_coordinate + y[i]);
         
         }
         

@@ -4,10 +4,12 @@
  */
 package com.mstanimirov.chess.game.Board;
 
+import com.mstanimirov.chess.game.Piece.Coordinate;
 import com.mstanimirov.chess.game.Piece.Piece;
+import java.util.ArrayList;
 
 /**
- * Chess board class
+ * Board Class
  * 
  * @author mstanimirov
  */
@@ -16,7 +18,7 @@ public class Board {
     private int width; // chessboard width
     private int height; // chessboard height
     private Piece[][] tiles; // 2d array to represent board tiles
-        
+    
     /**
      * Construct chessboard given width and height
      * 
@@ -38,10 +40,7 @@ public class Board {
         this.height = height;
         
         //Initialize 2d array
-        this.tiles = new Piece[height][];
-        for(int i = 0; i < height; i++){
-            this.tiles[i] = new Piece[width];
-        }
+        this.tiles = new Piece[height][width];
         
     }  
     

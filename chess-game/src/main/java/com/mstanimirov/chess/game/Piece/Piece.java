@@ -62,6 +62,7 @@ public abstract class Piece {
     
     /**
      * Set the coordinate of piece on board
+     * 
      * @param x the x coordinate to put the piece
      * @param y the y coordinate to put the piece
      * @return if coordinate is valid return true; otherwise return false
@@ -69,6 +70,9 @@ public abstract class Piece {
     public boolean setCoordinate(int x, int y){
         
         if(x >= this.board.getWidth() || x < 0 || y >= this.board.getHeight() || y < 0) // Index out of bound
+            return false;
+        
+        if(this.board.getPiece(x, y) != null) // Piece on that coordinate
             return false;
         
         if(x_coordinate != -1 && y_coordinate != -1){ // Piece is on board
@@ -81,6 +85,7 @@ public abstract class Piece {
         
         // Update board
         this.board.setPiece(this, x, y);
+        System.out.print("\n[X] "+ this.piece_name +" moves to (" + x +", " + y +")");
         
         return true;
     }
@@ -92,6 +97,27 @@ public abstract class Piece {
         this.board.removePiece(this); // Remove piece from board
         this.x_coordinate = -1;
         this.y_coordinate = -1;
+    }
+    
+    /**
+     * Add move to coordinates if it's valid
+     * @param coords ArrayList<Coordinate> Object to add valid moves to
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return true if move is added to coordinates list, false if move is not valid 
+     */
+    public boolean addMoveIfValid(ArrayList<Coordinate> coords, int x, int y){
+        
+        if(x >= this.board.getWidth() || x < 0 || y >= this.board.getHeight() || y < 0) // Index out of bound
+            return false;
+        
+        if(this.board.getPiece(x, y) == null){
+            coords.add(new Coordinate(x, y));
+            return true;
+        }
+        else
+            return false;
+        
     }
     
     /**

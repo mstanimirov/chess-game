@@ -8,6 +8,7 @@ package com.mstanimirov.chess.game.Piece;
  * Coordinate class
  * 
  * Used to store possible moves coordinate value (x, y) of Piece
+ * 
  * @author mstanimirov
  */
 public class Coordinate {
