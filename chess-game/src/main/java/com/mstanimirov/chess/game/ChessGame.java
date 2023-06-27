@@ -53,13 +53,15 @@ public class ChessGame {
         if(moveToTarget(knight, target))
             System.out.print("\n[X] Target Reached!");
         else
-            System.out.print("\n[X] Target can't be reached with this setup!");
+            System.out.print("\n[X] No possible moves to reach ("+target.getX()+", "+target.getY()+") "
+                            + "from ("+knight.getX_coordinate()+", "+knight.getY_coordinate()+") "
+                            + "on a "+boardWidth+"x"+boardHeight+" chess board");
 
     }
     
     /**
      * 
-     * Move piece to target coordinates
+     * Move piece to target coordinate
      * 
      * If target is one move away make that move. Otherwise call findShortestPath()
      * to get the shortest path to target and execute it.
@@ -86,9 +88,12 @@ public class ChessGame {
         Queue<Coordinate> path = findShortestPath(p, target);        
         if(path != null){
             
+            // Loop till queue is empty
             while(!path.isEmpty()){
                 
+                // Dequeue front coordinate and process it
                 Coordinate coord = path.poll();
+                
                 p.setCoordinate(coord.getX(), coord.getY());
                 drawBoard(board);
                 
@@ -102,6 +107,13 @@ public class ChessGame {
         
     }
 
+    /**
+     * Find shortest path for a piece to target using Breadth-First Search algorithm
+     * 
+     * @param p piece to move
+     * @param target target to move piece to
+     * @return Queue<Coordinate> Object that contains valid coordinates to reach the target
+     */
     public static Queue<Coordinate> findShortestPath(Piece p, Coordinate target){
         
         // Store visited coordinates
@@ -133,6 +145,7 @@ public class ChessGame {
                 visited.add(coord);
                 coord.visited.add(coord);
                 
+                // Get all possible moves from selected coordinate
                 ArrayList<Coordinate> coords = p.getPossibleMoves(coord.getX(), coord.getY());
                 
                 // Go through all possible move coordinates
@@ -155,7 +168,8 @@ public class ChessGame {
     
     /**
      * Print visual representation of the board and all pieces on it
-     * @param board the board to draw
+     * 
+     * @param board the board to print
      */
     public static void drawBoard(Board board){
     

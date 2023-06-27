@@ -5,10 +5,8 @@
 package com.mstanimirov.chess.game.Piece;
 
 import java.util.ArrayDeque;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Queue;
-import java.util.Set;
 
 /**
  * Coordinate class
@@ -22,7 +20,7 @@ public class Coordinate {
     private int x;
     private int y;
     
-    // Queue store coordinates visited before reaching this coordinate
+    // Queue<Coordinate> Object to store moves for reaching this coordinate
     public Queue<Coordinate> visited = new ArrayDeque<>();
     
     /**

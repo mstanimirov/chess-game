@@ -50,6 +50,13 @@ public class Knight extends Piece{
         
     }
     
+    /**
+     * Get all possible move coordinates for this knight piece from coordinate
+     * 
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return ArrayList<Coordinate> Object that contains all possible move coordinates
+     */
     @Override
     public ArrayList<Coordinate> getPossibleMoves(int x, int y) {
         
